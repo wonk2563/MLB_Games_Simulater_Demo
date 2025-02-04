@@ -3,7 +3,7 @@
 **MLB Game Simulator** utilizes **Google Gemini AI** technology combined with **MLB historical data** to generate more realistic simulation results. You can freely set up matchups, adjust tactical strategies, and even specify starting lineups - then just hit the simulate button!
 
 [![Demo](https://img.youtube.com/vi/MInEtGRfmzk/0.jpg)](https://www.youtube.com/watch?v=MInEtGRfmzk)
-[Play Ground](https://mlbgame.raccoonhands.cloud/)
+* [Play Ground](https://mlbgame.raccoonhands.cloud/)
 
 ## ✨ Project Highlights
 
