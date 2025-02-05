@@ -29,7 +29,7 @@
               <template v-for="inning in 9" :key="inning">
                 <td 
                   class="px-4 py-2"
-                  :class="{'bg-blue-50': currentInning === inning && currentTeam === team}"
+                  :class="{'bg-blue-50 text-black': currentInning === inning}"
                 >
                   {{ getScore(team, inning) }}
                 </td>
@@ -44,7 +44,9 @@
 
       <!-- Current Event Description -->
       <div class="mt-4 text-center">
-        <p class="text-lg font-bold">{{ currentEvent?.result || 'Waiting for game to start' }}</p>
+        <p class="text-lg font-bold">
+          {{ currentEvent?.result || 'Waiting for game to start' }}
+        </p>
       </div>
     </UCard>
   </template>
@@ -78,9 +80,10 @@
       type: Number,
       required: true
     },
-    currentTeam: {
-      type: String,
-      required: true
+    currentEvent: {
+      type: Object,
+      required: false,
+      default: null
     }
   })
   
@@ -95,12 +98,6 @@
       return total + (team === 'home' ? inning.homeScore : inning.awayScore);
     }, 0);
   }
-  
-  const currentInning = computed(() => 
-    props.innings.length > 0 
-      ? props.innings[props.innings.length - 1].number 
-      : 0
-  )
   </script>
   
   <style scoped>

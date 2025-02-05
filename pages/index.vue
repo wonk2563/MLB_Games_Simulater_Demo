@@ -53,6 +53,8 @@
               :innings="gameData.innings" 
               :homeTeam="form.homeTeam" 
               :awayTeam="form.awayTeam" 
+              :currentInning="currentInning"
+              :currentEvent="currentEvent"
             />
           </Transition>
 
@@ -80,7 +82,9 @@ const form = ref({
 });
 
 const gameData = ref({innings: []});
+const currentInning = ref(1);
 const currentEvents = ref([]);
+const currentEvent = ref(null);
 const isSimulating = ref(false);
 
 async function simulateGame() {
@@ -104,7 +108,9 @@ async function simulateGame() {
     // // 逐局显示结果
     for (let i = 0; i < data.value.innings.length; i++) {
       gameData.value = data.value;
+      currentInning.value = data.value.innings[i].number;
       currentEvents.value = data.value.innings[i].events;
+      currentEvent.value = data.value.innings[i].events[data.value.innings[i].events.length - 1];
       await new Promise(resolve => setTimeout(resolve, 3000)); // 3秒更新一局
     }
   } finally {
