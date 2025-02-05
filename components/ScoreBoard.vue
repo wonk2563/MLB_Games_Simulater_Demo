@@ -28,6 +28,7 @@
               </td>
               <template v-for="inning in 9" :key="inning">
                 <td 
+                  :ref="el => { if (currentInning === inning) currentInningRef = el }"
                   class="px-4 py-2"
                   :class="{'bg-blue-50 text-black': currentInning === inning}"
                 >
@@ -52,6 +53,8 @@
   </template>
   
   <script setup lang="ts">
+  import { ref, watch } from 'vue'
+
   interface Inning {
     number: number
     homeScore: number
@@ -85,6 +88,21 @@
       required: false,
       default: null
     }
+  })
+
+  const currentInningRef = ref<HTMLElement | null>(null)
+  
+  watch(() => props.currentInning, () => {
+    // 使用 setTimeout 确保 DOM 更新后再滚动
+    setTimeout(() => {
+      if (currentInningRef.value) {
+        currentInningRef.value.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        })
+      }
+    }, 100)
   })
   
   const getScore = (team: string, inning: number) => {

@@ -14,8 +14,8 @@
         </div>
       </template>
 
-      <div class="grid grid-cols-5 gap-4">
-        <div class="col-span-2 flex flex-colspace-y-4">
+      <div class="flex flex-col md:grid grid-cols-5 gap-4">
+        <div class="md:col-span-2 flex flex-col space-y-4">
           <UForm :state="form" class="space-y-4">
             <TeamForm 
               label="Home Team" 
@@ -28,7 +28,7 @@
           </UForm>
         </div>
 
-        <div class="col-span-3 flex flex-col space-y-8">
+        <div class="md:col-span-3 flex flex-col space-y-8">
           <div class="flex flex-col space-y-4">
             <UButton 
               block
@@ -163,7 +163,6 @@ async function simulateGame() {
     gameData.value = { innings: [] };
     for (let i = 0; i < allInnings.length; i++) {
       gameData.value.innings.push(allInnings[i]);
-      console.log(gameData.value.innings);
       currentInning.value = i + 1;
       currentEvents.value = allInnings[i].events;
       currentEvent.value = allInnings[i].events[allInnings[i].events.length - 1];
