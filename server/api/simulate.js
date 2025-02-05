@@ -273,7 +273,7 @@ function parseEvents(geminiResponse) {
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
-    const { action, sessionId, team1, team2, team1_tactics, team2_tactics, team1_lineup, team2_lineup } = body;
+    const { action, inning, team1, team2, team1_tactics, team2_tactics, team1_lineup, team2_lineup, generatedGames } = body;
 
     if (action === "checkIndexStatus") {
       await createVectorStore()
@@ -312,31 +312,27 @@ export default defineEventHandler(async (event) => {
 
     if (action === "simulate") {
       try {
-        // 模拟9局比赛
-        const innings = [];
-        for (let i = 1; i <= 9; i++) {
-          const inningResult = await simulation({
-            inning: i,
-            team1: team1,
-            team2: team2,
-            team1_tactics: team1_tactics,
-            team2_tactics: team2_tactics,
-            team1_lineup: team1_lineup,
-            team2_lineup: team2_lineup,
-            generatedGames: JSON.stringify(innings)
-          });
-          
-          innings.push({
-            number: i,
-            homeScore: inningResult.events.homeScore,
-            awayScore: inningResult.events.awayScore,
-            events: inningResult.events.events
-          });
+        const inningResult = await simulation({
+          inning: inning,
+          team1: team1,
+          team2: team2,
+          team1_tactics: team1_tactics,
+          team2_tactics: team2_tactics,
+          team1_lineup: team1_lineup,
+          team2_lineup: team2_lineup,
+          generatedGames: generatedGames
+        });
+        
+        const result = {
+          number: inning,
+          homeScore: inningResult.events.homeScore,
+          awayScore: inningResult.events.awayScore,
+          events: inningResult.events.events
         }
 
         return {
           code: 200,
-          innings: innings
+          result: result
         }
       }
       catch (error) {
